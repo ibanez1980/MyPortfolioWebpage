@@ -77,7 +77,7 @@
         display: grid;
         grid-template-columns: 1fr 1fr;
         position: relative;
-        overflow: hidden;
+        overflow: visible; /* allow profile frame decorative borders to show */
       }
 
       #hero::after {
@@ -124,7 +124,7 @@
 
       .hero-name {
         font-family: "Syne", sans-serif;
-        font-size: clamp(3rem, 6vw, 5.5rem);
+        font-size: clamp(2.4rem, 8vw, 5.5rem);
         font-weight: 800;
         line-height: 0.95;
         letter-spacing: -0.02em;
@@ -444,6 +444,9 @@
         overflow: hidden;
         transition: border-color 0.3s;
       }
+      .project-featured--reversed {
+        grid-template-columns: 1fr 1fr;
+      }
       .project-featured:hover {
         border-color: rgba(200, 169, 110, 0.25);
       }
@@ -467,6 +470,7 @@
         width: 100%;
         height: 100%;
         min-height: 360px;
+        max-height: 500px;
         object-fit: cover;
         display: block;
         filter: grayscale(40%) contrast(1.05);
@@ -745,16 +749,20 @@
       }
 
       /* ── RESPONSIVE ── */
+
+      /* Tablet: 768px – 1100px */
       @media (max-width: 1100px) {
         #hero {
           grid-template-columns: 1fr;
           min-height: auto;
         }
         .hero-right {
-          display: none;
+          /* visible on tablet, shown below text */
+          order: -1; /* pull photo above text on single column */
+          padding: 60px 40px 20px;
         }
         .hero-left {
-          padding: 80px 40px;
+          padding: 20px 40px 80px;
         }
         nav {
           padding: 0 40px;
@@ -766,7 +774,8 @@
           grid-template-columns: 1fr;
         }
         .project-featured-img img {
-          min-height: 240px;
+          min-height: 260px;
+          max-height: 320px;
         }
         .projects-grid {
           grid-template-columns: 1fr 1fr;
@@ -780,27 +789,137 @@
         }
       }
 
-      @media (max-width: 700px) {
-        .hero-left {
-          padding: 60px 24px;
+      /* Mobile: up to 767px */
+      @media (max-width: 767px) {
+        /* Hero */
+        #hero {
+          grid-template-columns: 1fr;
+          min-height: auto;
         }
+        .hero-right {
+          order: -1;
+          padding: 56px 24px 24px;
+        }
+        /* Shrink the profile photo frame on mobile */
+        .profile-frame {
+          width: 180px;
+          height: 180px;
+        }
+        .profile-frame img {
+          width: 180px;
+          height: 180px;
+        }
+        /* Pull decorative borders in so they don't overflow */
+        .profile-frame::before {
+          inset: -8px;
+        }
+        .profile-frame::after {
+          inset: -16px;
+        }
+        /* Stat cards: tuck them in closer */
+        .stat-card.top-right {
+          top: 10px;
+          right: -10px;
+        }
+        .stat-card.bottom-left {
+          bottom: 10px;
+          left: -10px;
+        }
+        .stat-card {
+          padding: 10px 14px;
+        }
+        .stat-card .num {
+          font-size: 1.3rem;
+        }
+
+        .hero-left {
+          padding: 8px 24px 64px;
+        }
+        .hero-name {
+          font-size: clamp(2rem, 11vw, 3rem);
+          word-break: break-word;
+        }
+        .hero-bio {
+          max-width: 100%;
+        }
+
+        /* Nav */
         nav {
-          padding: 0 24px;
+          padding: 0 20px;
         }
         .nav-links {
           display: none;
         }
+
+        /* Projects */
         #projects {
-          padding: 60px 24px;
+          padding: 56px 20px;
+        }
+        .section-header {
+          margin-bottom: 48px;
+        }
+        .project-featured {
+          grid-template-columns: 1fr !important; /* override inline style on project 5 */
         }
         .project-featured-content {
-          padding: 32px;
+          padding: 28px 24px;
+          border-right: none !important; /* remove inline border-right on project 5 */
+        }
+        .project-featured-img img {
+          min-height: 200px;
+          max-height: 240px;
+        }
+        .project-title {
+          font-size: 1.3rem;
         }
         .projects-grid {
           grid-template-columns: 1fr;
         }
+        .project-card-img {
+          height: 180px;
+        }
+        .project-card-content {
+          padding: 24px 20px;
+        }
+
+        /* Footer */
         footer {
-          padding: 40px 24px;
+          padding: 36px 20px;
+          grid-template-columns: 1fr;
+        }
+        .footer-right {
+          align-items: flex-start;
+        }
+
+        /* Buttons - stack on very narrow screens */
+        .hero-cta {
+          flex-wrap: wrap;
+        }
+        .btn-primary,
+        .btn-ghost {
+          padding: 13px 24px;
+          font-size: 10px;
+        }
+      }
+
+      /* Very small phones: up to 380px */
+      @media (max-width: 380px) {
+        .hero-name {
+          font-size: 2rem;
+        }
+        .profile-frame {
+          width: 150px;
+          height: 150px;
+        }
+        .profile-frame img {
+          width: 150px;
+          height: 150px;
+        }
+        .stat-card.top-right {
+          right: -5px;
+        }
+        .stat-card.bottom-left {
+          left: -5px;
         }
       }
     </style>
@@ -1065,8 +1184,8 @@
 
       <!-- Tableau full-width card -->
       <div
-        class="project-featured"
-        style="margin-top: 2px; grid-template-columns: 1fr 1fr"
+        class="project-featured project-featured--reversed"
+        style="margin-top: 2px"
       >
         <div
           class="project-featured-content"
@@ -1134,7 +1253,7 @@
           </a>
         </div>
         <div class="footer-email">mpotsivalischristos@outlook.com</div>
-      </div>
+    </div>
     </footer>
   </body>
 </html>
