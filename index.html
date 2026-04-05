@@ -532,6 +532,13 @@
         color: var(--text-dim);
       }
 
+      /* Container for multiple project links */
+      .project-links-wrapper {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 24px;
+      }
+
       .project-link {
         font-family: "DM Mono", monospace;
         font-size: 11px;
@@ -542,13 +549,21 @@
         display: flex;
         align-items: center;
         gap: 10px;
-        transition: gap 0.2s;
+        transition: gap 0.2s, color 0.2s;
       }
       .project-link::after {
         content: "→";
       }
       .project-link:hover {
         gap: 16px;
+      }
+
+      /* Secondary link styling for HTML fallback */
+      .project-link.secondary {
+        color: var(--text-muted);
+      }
+      .project-link.secondary:hover {
+        color: #fff;
       }
 
       /* Grid projects */
@@ -902,7 +917,7 @@
         <div class="project-featured-content">
           <div class="project-num">01 — Featured</div>
           <a
-            href="https://nbviewer.jupyter.org/github/ibanez1980/JuniorDataAnalystPortfolio/blob/main/1)Amazon%20Web%20Scraper%20Projects/Scraping%20100%20Best%20Sellers/100%20Best%20Sellers.ipynb"
+            href="./1%29Amazon%20Web%20Scraper%20Projects/Scraping%20100%20Best%20Sellers/100%20Best%20Sellers.html"
             target="_blank"
             class="project-title"
             >100 Best Sellers<br />Web Scraper</a
@@ -918,12 +933,21 @@
             <span class="project-tag">Selenium</span>
             <span class="project-tag">Web Scraping</span>
           </div>
-          <a
-            href="https://nbviewer.jupyter.org/github/ibanez1980/JuniorDataAnalystPortfolio/blob/main/1)Amazon%20Web%20Scraper%20Projects/Scraping%20100%20Best%20Sellers/100%20Best%20Sellers.ipynb"
-            target="_blank"
-            class="project-link"
-            >View Project</a
-          >
+          
+          <div class="project-links-wrapper">
+            <a
+              href="https://nbviewer.jupyter.org/github/ibanez1980/JuniorDataAnalystPortfolio/blob/main/1)Amazon%20Web%20Scraper%20Projects/Scraping%20100%20Best%20Sellers/100%20Best%20Sellers.ipynb"
+              target="_blank"
+              class="project-link"
+              >View Notebook</a
+            >
+            <a
+              href="./1%29Amazon%20Web%20Scraper%20Projects/Scraping%20100%20Best%20Sellers/100%20Best%20Sellers.html"
+              target="_blank"
+              class="project-link secondary"
+              >View HTML</a
+            >
+          </div>
         </div>
       </div>
 
@@ -936,7 +960,7 @@
           <div class="project-card-content">
             <div class="project-num">02</div>
             <a
-              href="https://nbviewer.jupyter.org/github/ibanez1980/JuniorDataAnalystPortfolio/blob/main/2%29YouTube%20API/GM%20Hikaru%20Nakamura-YouTube%20Channel%20Analysis.ipynb"
+              href="./2%29YouTube%20API/GM%20Hikaru%20Nakamura-YouTube%20Channel%20Analysis.html"
               target="_blank"
               class="project-title"
               >YouTube API Analysis</a
@@ -949,12 +973,21 @@
               <span class="project-tag">Python</span>
               <span class="project-tag">YouTube API</span>
             </div>
-            <a
-              href="https://nbviewer.jupyter.org/github/ibanez1980/JuniorDataAnalystPortfolio/blob/main/2%29YouTube%20API/GM%20Hikaru%20Nakamura-YouTube%20Channel%20Analysis.ipynb"
-              target="_blank"
-              class="project-link"
-              >View Project</a
-            >
+            
+            <div class="project-links-wrapper">
+              <a
+                href="https://nbviewer.jupyter.org/github/ibanez1980/JuniorDataAnalystPortfolio/blob/main/2%29YouTube%20API/GM%20Hikaru%20Nakamura-YouTube%20Channel%20Analysis.ipynb"
+                target="_blank"
+                class="project-link"
+                >View Notebook</a
+              >
+              <a
+                href="./2%29YouTube%20API/GM%20Hikaru%20Nakamura-YouTube%20Channel%20Analysis.html"
+                target="_blank"
+                class="project-link secondary"
+                >View HTML</a
+              >
+            </div>
           </div>
         </div>
 
@@ -965,7 +998,7 @@
           <div class="project-card-content">
             <div class="project-num">03</div>
             <a
-              href="https://nbviewer.org/github/ibanez1980/JuniorDataAnalystPortfolio/blob/main/3)Movie%20Correlation(Pandas)/Movie%20Correlation%20Project.ipynb"
+              href="./3%29Movie%20Correlation%28Pandas%29/Movie%20Correlation%20Project.html"
               target="_blank"
               class="project-title"
               >Movie Correlation Project</a
@@ -979,12 +1012,21 @@
               <span class="project-tag">Matplotlib</span>
               <span class="project-tag">Seaborn</span>
             </div>
-            <a
-              href="https://nbviewer.org/github/ibanez1980/JuniorDataAnalystPortfolio/blob/main/3)Movie%20Correlation(Pandas)/Movie%20Correlation%20Project.ipynb"
-              target="_blank"
-              class="project-link"
-              >View Project</a
-            >
+            
+            <div class="project-links-wrapper">
+              <a
+                href="https://nbviewer.org/github/ibanez1980/JuniorDataAnalystPortfolio/blob/main/3)Movie%20Correlation(Pandas)/Movie%20Correlation%20Project.ipynb"
+                target="_blank"
+                class="project-link"
+                >View Notebook</a
+              >
+              <a
+                href="./3%29Movie%20Correlation%28Pandas%29/Movie%20Correlation%20Project.html"
+                target="_blank"
+                class="project-link secondary"
+                >View HTML</a
+              >
+            </div>
           </div>
         </div>
 
@@ -1008,12 +1050,15 @@
               <span class="project-tag">SQL</span>
               <span class="project-tag">Power BI</span>
             </div>
-            <a
-              href="https://app.powerbi.com/links/IjZwl0exdJ?ctid=1c3b8af8-fe20-4324-bf8e-c210dffe85e5&pbi_source=linkShare"
-              target="_blank"
-              class="project-link"
-              >View Project</a
-            >
+            
+            <div class="project-links-wrapper">
+              <a
+                href="https://app.powerbi.com/links/IjZwl0exdJ?ctid=1c3b8af8-fe20-4324-bf8e-c210dffe85e5&pbi_source=linkShare"
+                target="_blank"
+                class="project-link"
+                >View Project</a
+              >
+            </div>
           </div>
         </div>
       </div>
@@ -1044,12 +1089,15 @@
             <span class="project-tag">Data Viz</span>
             <span class="project-tag">Dashboard</span>
           </div>
-          <a
-            href="https://public.tableau.com/app/profile/chris.mpotsivalis/viz/CanadaCOVID19Tracker/COVID19Tracker"
-            target="_blank"
-            class="project-link"
-            >View Dashboard</a
-          >
+          
+          <div class="project-links-wrapper">
+            <a
+              href="https://public.tableau.com/app/profile/chris.mpotsivalis/viz/CanadaCOVID19Tracker/COVID19Tracker"
+              target="_blank"
+              class="project-link"
+              >View Dashboard</a
+            >
+          </div>
         </div>
         <div class="project-featured-img">
           <img src="images/covid.jpg" alt="Canada COVID-19 Tableau Dashboard" />
