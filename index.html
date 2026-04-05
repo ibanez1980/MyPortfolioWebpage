@@ -816,28 +816,32 @@
         .profile-frame::after {
           inset: -16px;
         }
-        /* Stat cards: tuck them in closer */
+        /* Stat cards: tuck them in closer and make them smaller */
         .stat-card.top-right {
-          top: 10px;
-          right: -10px;
+          top: 8px;
+          right: -8px;
         }
         .stat-card.bottom-left {
-          bottom: 10px;
-          left: -10px;
+          bottom: 8px;
+          left: -8px;
         }
         .stat-card {
-          padding: 10px 14px;
+          padding: 7px 10px;
         }
         .stat-card .num {
-          font-size: 1.3rem;
+          font-size: 1rem;
+        }
+        .stat-card .label {
+          font-size: 8px;
+          margin-top: 2px;
         }
 
         .hero-left {
           padding: 8px 24px 64px;
         }
         .hero-name {
-          font-size: clamp(2rem, 11vw, 3rem);
-          word-break: break-word;
+          font-size: clamp(1.6rem, 9vw, 3rem);
+          overflow-wrap: break-word;
         }
         .hero-bio {
           max-width: 100%;
@@ -916,10 +920,10 @@
           height: 150px;
         }
         .stat-card.top-right {
-          right: -5px;
+          right: -4px;
         }
         .stat-card.bottom-left {
-          left: -5px;
+          left: -4px;
         }
       }
     </style>
@@ -1256,4 +1260,4 @@
     </div>
     </footer>
   </body>
-</html>
+</html> 	
