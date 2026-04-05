@@ -1,848 +1,1092 @@
-<!DOCTYPE HTML>
+<!doctype html>
 <html lang="en">
-<head>
-	<title>Chris Mpotsivalis — Data Analyst</title>
-	<link rel="shortcut icon" href="images/Chris.png" type="image/x-icon">
-	<meta charset="utf-8" />
-	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-	<link rel="preconnect" href="https://fonts.googleapis.com">
-	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-	<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@300;400;500&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
-	<style>
-		:root {
-			--bg: #0a0a0f;
-			--surface: #111118;
-			--surface2: #16161f;
-			--border: rgba(255,255,255,0.07);
-			--accent: #c8a96e;
-			--accent2: #7e6fff;
-			--text: #e8e6e0;
-			--text-muted: #7a7870;
-			--text-dim: #4a4845;
-		}
-
-		*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-		html { scroll-behavior: smooth; }
-
-		body {
-			background: var(--bg);
-			color: var(--text);
-			font-family: 'DM Mono', monospace;
-			font-size: 14px;
-			line-height: 1.7;
-			overflow-x: hidden;
-		}
-
-		/* ── NOISE OVERLAY ── */
-		body::before {
-			content: '';
-			position: fixed;
-			inset: 0;
-			background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
-			opacity: 0.025;
-			pointer-events: none;
-			z-index: 999;
-		}
-
-		/* ── SCROLLBAR ── */
-		::-webkit-scrollbar { width: 4px; }
-		::-webkit-scrollbar-track { background: var(--bg); }
-		::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 2px; }
-
-		/* ── HERO ── */
-		#hero {
-			min-height: 100vh;
-			display: grid;
-			grid-template-columns: 1fr 1fr;
-			position: relative;
-			overflow: hidden;
-		}
-
-		#hero::after {
-			content: '';
-			position: absolute;
-			top: -20%;
-			right: -10%;
-			width: 60vw;
-			height: 60vw;
-			background: radial-gradient(circle, rgba(200,169,110,0.06) 0%, transparent 70%);
-			pointer-events: none;
-		}
-
-		.hero-left {
-			display: flex;
-			flex-direction: column;
-			justify-content: center;
-			padding: 80px 60px 80px 80px;
-			position: relative;
-			z-index: 1;
-		}
-
-		.hero-eyebrow {
-			font-family: 'DM Mono', monospace;
-			font-size: 11px;
-			letter-spacing: 0.25em;
-			text-transform: uppercase;
-			color: var(--accent);
-			margin-bottom: 28px;
-			display: flex;
-			align-items: center;
-			gap: 12px;
-		}
-		.hero-eyebrow::before {
-			content: '';
-			width: 40px;
-			height: 1px;
-			background: var(--accent);
-		}
-
-		.hero-name {
-			font-family: 'Syne', sans-serif;
-			font-size: clamp(3rem, 6vw, 5.5rem);
-			font-weight: 800;
-			line-height: 0.95;
-			letter-spacing: -0.02em;
-			color: #fff;
-			margin-bottom: 8px;
-		}
-
-		.hero-name span {
-			display: block;
-			color: var(--accent);
-			font-style: italic;
-			font-family: 'Cormorant Garamond', serif;
-			font-weight: 300;
-			font-size: 0.62em;
-			letter-spacing: 0;
-			line-height: 1.3;
-		}
-
-		.hero-tagline {
-			font-family: 'Cormorant Garamond', serif;
-			font-style: italic;
-			font-size: 1.25rem;
-			color: var(--text-muted);
-			margin-top: 24px;
-			margin-bottom: 36px;
-			border-left: 2px solid var(--accent);
-			padding-left: 20px;
-		}
-
-		.hero-bio {
-			color: var(--text-muted);
-			font-size: 13px;
-			line-height: 1.8;
-			max-width: 440px;
-			margin-bottom: 40px;
-		}
-
-		.hero-bio a {
-			color: var(--accent);
-			text-decoration: none;
-		}
-
-		.skills-row {
-			display: flex;
-			flex-wrap: wrap;
-			gap: 8px;
-			margin-bottom: 40px;
-		}
-
-		.skill-tag {
-			font-family: 'DM Mono', monospace;
-			font-size: 10px;
-			letter-spacing: 0.1em;
-			text-transform: uppercase;
-			color: var(--text-dim);
-			border: 1px solid var(--border);
-			padding: 5px 12px;
-			border-radius: 2px;
-			transition: all 0.2s;
-		}
-		.skill-tag:hover {
-			color: var(--accent);
-			border-color: var(--accent);
-		}
-
-		.hero-cta {
-			display: flex;
-			gap: 16px;
-			align-items: center;
-		}
-
-		.btn-primary {
-			font-family: 'DM Mono', monospace;
-			font-size: 11px;
-			letter-spacing: 0.15em;
-			text-transform: uppercase;
-			color: var(--bg);
-			background: var(--accent);
-			border: none;
-			padding: 14px 32px;
-			cursor: pointer;
-			text-decoration: none;
-			transition: all 0.25s;
-			display: inline-block;
-		}
-		.btn-primary:hover { background: #d4b87a; transform: translateY(-1px); }
-
-		.btn-ghost {
-			font-family: 'DM Mono', monospace;
-			font-size: 11px;
-			letter-spacing: 0.15em;
-			text-transform: uppercase;
-			color: var(--text-muted);
-			background: none;
-			border: 1px solid var(--border);
-			padding: 14px 32px;
-			cursor: pointer;
-			text-decoration: none;
-			transition: all 0.25s;
-			display: inline-block;
-		}
-		.btn-ghost:hover { color: var(--accent); border-color: var(--accent); }
-
-		/* ── HERO RIGHT ── */
-		.hero-right {
-			display: flex;
-			align-items: center;
-			justify-content: center;
-			padding: 80px 60px;
-			position: relative;
-		}
-
-		.profile-frame {
-			position: relative;
-			width: 280px;
-			height: 280px;
-		}
-
-		.profile-frame::before {
-			content: '';
-			position: absolute;
-			inset: -12px;
-			border: 1px solid rgba(200,169,110,0.3);
-			transform: rotate(6deg);
-			transition: transform 0.4s;
-		}
-
-		.profile-frame::after {
-			content: '';
-			position: absolute;
-			inset: -24px;
-			border: 1px solid rgba(200,169,110,0.12);
-			transform: rotate(-3deg);
-			transition: transform 0.4s;
-		}
-
-		.profile-frame:hover::before { transform: rotate(3deg); }
-		.profile-frame:hover::after { transform: rotate(-6deg); }
-
-		.profile-frame img {
-			width: 280px;
-			height: 280px;
-			object-fit: cover;
-			display: block;
-			filter: grayscale(20%);
-			transition: filter 0.3s;
-		}
-
-		.profile-frame:hover img { filter: grayscale(0%); }
-
-		/* stat cards floating */
-		.stat-card {
-			position: absolute;
-			background: var(--surface);
-			border: 1px solid var(--border);
-			padding: 14px 20px;
-			backdrop-filter: blur(12px);
-		}
-		.stat-card .num {
-			font-family: 'Syne', sans-serif;
-			font-size: 1.8rem;
-			font-weight: 700;
-			color: var(--accent);
-			line-height: 1;
-		}
-		.stat-card .label {
-			font-size: 10px;
-			letter-spacing: 0.1em;
-			text-transform: uppercase;
-			color: var(--text-dim);
-			margin-top: 4px;
-		}
-		.stat-card.top-right { top: 20px; right: -30px; }
-		.stat-card.bottom-left { bottom: 20px; left: -50px; }
-
-		/* ── DIVIDER ── */
-		.section-divider {
-			width: 100%;
-			height: 1px;
-			background: linear-gradient(90deg, transparent, var(--border) 20%, var(--border) 80%, transparent);
-			margin: 0;
-		}
-
-		/* ── NAV ── */
-		nav {
-			position: sticky;
-			top: 0;
-			z-index: 100;
-			background: rgba(10,10,15,0.85);
-			backdrop-filter: blur(20px);
-			border-bottom: 1px solid var(--border);
-			padding: 0 80px;
-			display: flex;
-			align-items: center;
-			justify-content: space-between;
-			height: 64px;
-		}
-
-		.nav-logo {
-			font-family: 'Syne', sans-serif;
-			font-weight: 700;
-			font-size: 14px;
-			letter-spacing: 0.08em;
-			text-transform: uppercase;
-			color: #fff;
-			text-decoration: none;
-		}
-
-		.nav-logo span { color: var(--accent); }
-
-		.nav-links {
-			display: flex;
-			align-items: center;
-			gap: 32px;
-			list-style: none;
-		}
-
-		.nav-links a {
-			font-family: 'DM Mono', monospace;
-			font-size: 11px;
-			letter-spacing: 0.15em;
-			text-transform: uppercase;
-			color: var(--text-muted);
-			text-decoration: none;
-			transition: color 0.2s;
-		}
-		.nav-links a:hover, .nav-links a.active { color: var(--accent); }
-
-		.nav-socials {
-			display: flex;
-			align-items: center;
-			gap: 20px;
-		}
-
-		.nav-socials a {
-			color: var(--text-dim);
-			text-decoration: none;
-			font-size: 15px;
-			transition: color 0.2s;
-		}
-		.nav-socials a:hover { color: var(--accent); }
-
-		/* ── PROJECTS SECTION ── */
-		#projects {
-			padding: 120px 80px;
-		}
-
-		.section-header {
-			margin-bottom: 80px;
-		}
-
-		.section-label {
-			font-family: 'DM Mono', monospace;
-			font-size: 11px;
-			letter-spacing: 0.25em;
-			text-transform: uppercase;
-			color: var(--accent);
-			display: flex;
-			align-items: center;
-			gap: 12px;
-			margin-bottom: 20px;
-		}
-		.section-label::before {
-			content: '';
-			width: 40px;
-			height: 1px;
-			background: var(--accent);
-		}
-
-		.section-title {
-			font-family: 'Syne', sans-serif;
-			font-size: clamp(2rem, 4vw, 3.5rem);
-			font-weight: 800;
-			line-height: 1;
-			letter-spacing: -0.02em;
-			color: #fff;
-		}
-
-		/* Featured Project */
-		.project-featured {
-			display: grid;
-			grid-template-columns: 1fr 1fr;
-			gap: 0;
-			border: 1px solid var(--border);
-			margin-bottom: 2px;
-			overflow: hidden;
-			transition: border-color 0.3s;
-		}
-		.project-featured:hover { border-color: rgba(200,169,110,0.25); }
-
-		.project-featured-img {
-			overflow: hidden;
-			position: relative;
-		}
-		.project-featured-img::after {
-			content: '';
-			position: absolute;
-			inset: 0;
-			background: linear-gradient(135deg, rgba(200,169,110,0.15) 0%, transparent 50%);
-			pointer-events: none;
-		}
-		.project-featured-img img {
-			width: 100%;
-			height: 100%;
-			min-height: 360px;
-			object-fit: cover;
-			display: block;
-			filter: grayscale(40%) contrast(1.05);
-			transition: all 0.6s ease;
-		}
-		.project-featured:hover .project-featured-img img {
-			filter: grayscale(10%) contrast(1.05);
-			transform: scale(1.03);
-		}
-
-		.project-featured-content {
-			padding: 60px;
-			display: flex;
-			flex-direction: column;
-			justify-content: center;
-			background: var(--surface);
-		}
-
-		.project-num {
-			font-family: 'DM Mono', monospace;
-			font-size: 11px;
-			letter-spacing: 0.2em;
-			color: var(--accent);
-			margin-bottom: 20px;
-		}
-
-		.project-title {
-			font-family: 'Syne', sans-serif;
-			font-size: 1.8rem;
-			font-weight: 700;
-			color: #fff;
-			line-height: 1.1;
-			margin-bottom: 20px;
-			text-decoration: none;
-			display: block;
-			transition: color 0.2s;
-		}
-		.project-title:hover { color: var(--accent); }
-
-		.project-desc {
-			color: var(--text-muted);
-			font-size: 13px;
-			line-height: 1.8;
-			margin-bottom: 32px;
-		}
-
-		.project-tags {
-			display: flex;
-			flex-wrap: wrap;
-			gap: 8px;
-			margin-bottom: 32px;
-		}
-
-		.project-tag {
-			font-family: 'DM Mono', monospace;
-			font-size: 10px;
-			letter-spacing: 0.1em;
-			text-transform: uppercase;
-			padding: 4px 10px;
-			border: 1px solid var(--border);
-			color: var(--text-dim);
-		}
-
-		.project-link {
-			font-family: 'DM Mono', monospace;
-			font-size: 11px;
-			letter-spacing: 0.15em;
-			text-transform: uppercase;
-			color: var(--accent);
-			text-decoration: none;
-			display: flex;
-			align-items: center;
-			gap: 10px;
-			transition: gap 0.2s;
-		}
-		.project-link::after { content: '→'; }
-		.project-link:hover { gap: 16px; }
-
-		/* Grid projects */
-		.projects-grid {
-			display: grid;
-			grid-template-columns: repeat(3, 1fr);
-			gap: 2px;
-		}
-
-		.project-card {
-			background: var(--surface);
-			border: 1px solid var(--border);
-			overflow: hidden;
-			display: flex;
-			flex-direction: column;
-			transition: border-color 0.3s;
-			position: relative;
-		}
-		.project-card:hover { border-color: rgba(200,169,110,0.25); }
-
-		.project-card-img {
-			overflow: hidden;
-			position: relative;
-			height: 200px;
-		}
-		.project-card-img::after {
-			content: '';
-			position: absolute;
-			inset: 0;
-			background: linear-gradient(to bottom, transparent 40%, var(--surface) 100%);
-		}
-		.project-card-img img {
-			width: 100%;
-			height: 100%;
-			object-fit: cover;
-			display: block;
-			filter: grayscale(50%) contrast(1.05);
-			transition: all 0.6s ease;
-		}
-		.project-card:hover .project-card-img img {
-			filter: grayscale(10%);
-			transform: scale(1.05);
-		}
-
-		.project-card-content {
-			padding: 32px;
-			flex: 1;
-			display: flex;
-			flex-direction: column;
-		}
-
-		.project-card .project-title {
-			font-size: 1rem;
-			margin-bottom: 12px;
-		}
-
-		.project-card .project-desc {
-			font-size: 12.5px;
-			margin-bottom: 24px;
-			flex: 1;
-		}
-
-		/* ── FOOTER ── */
-		footer {
-			background: var(--surface);
-			border-top: 1px solid var(--border);
-			padding: 60px 80px;
-			display: grid;
-			grid-template-columns: 1fr auto;
-			align-items: center;
-			gap: 40px;
-		}
-
-		.footer-left .footer-name {
-			font-family: 'Syne', sans-serif;
-			font-size: 1.5rem;
-			font-weight: 700;
-			color: #fff;
-			margin-bottom: 8px;
-		}
-
-		.footer-left p {
-			color: var(--text-dim);
-			font-size: 12px;
-		}
-
-		.footer-right {
-			display: flex;
-			flex-direction: column;
-			align-items: flex-end;
-			gap: 20px;
-		}
-
-		.footer-links {
-			display: flex;
-			gap: 20px;
-			align-items: center;
-		}
-
-		.footer-links a {
-			font-family: 'DM Mono', monospace;
-			font-size: 11px;
-			letter-spacing: 0.1em;
-			text-transform: uppercase;
-			color: var(--text-muted);
-			text-decoration: none;
-			transition: color 0.2s;
-			display: flex;
-			align-items: center;
-			gap: 8px;
-		}
-		.footer-links a:hover { color: var(--accent); }
-
-		.footer-email {
-			font-family: 'DM Mono', monospace;
-			font-size: 11px;
-			color: var(--text-dim);
-			letter-spacing: 0.05em;
-		}
-
-		.footer-email span {
-			color: var(--accent);
-		}
-
-		/* ── SVG ICONS ── */
-		.icon-linkedin, .icon-github {
-			width: 16px;
-			height: 16px;
-			fill: currentColor;
-		}
-
-		/* ── ANIMATIONS ── */
-		@keyframes fadeUp {
-			from { opacity: 0; transform: translateY(30px); }
-			to { opacity: 1; transform: translateY(0); }
-		}
-
-		.hero-left > * {
-			opacity: 0;
-			animation: fadeUp 0.8s ease forwards;
-		}
-		.hero-eyebrow { animation-delay: 0.1s; }
-		.hero-name { animation-delay: 0.25s; }
-		.hero-tagline { animation-delay: 0.4s; }
-		.hero-bio { animation-delay: 0.5s; }
-		.skills-row { animation-delay: 0.6s; }
-		.hero-cta { animation-delay: 0.7s; }
-
-		.hero-right {
-			opacity: 0;
-			animation: fadeUp 0.8s ease 0.5s forwards;
-		}
-
-		/* ── RESPONSIVE ── */
-		@media (max-width: 1100px) {
-			#hero { grid-template-columns: 1fr; min-height: auto; }
-			.hero-right { display: none; }
-			.hero-left { padding: 80px 40px; }
-			nav { padding: 0 40px; }
-			#projects { padding: 80px 40px; }
-			.project-featured { grid-template-columns: 1fr; }
-			.project-featured-img img { min-height: 240px; }
-			.projects-grid { grid-template-columns: 1fr 1fr; }
-			footer { padding: 40px; grid-template-columns: 1fr; }
-			.footer-right { align-items: flex-start; }
-		}
-
-		@media (max-width: 700px) {
-			.hero-left { padding: 60px 24px; }
-			nav { padding: 0 24px; }
-			.nav-links { display: none; }
-			#projects { padding: 60px 24px; }
-			.project-featured-content { padding: 32px; }
-			.projects-grid { grid-template-columns: 1fr; }
-			footer { padding: 40px 24px; }
-		}
-	</style>
-</head>
-<body>
-
-<!-- NAV -->
-<nav>
-	<a href="index.html" class="nav-logo">Chris<span>.</span></a>
-	<ul class="nav-links">
-		<li><a href="#projects" class="active">Projects</a></li>
-		<li><a href="https://www.linkedin.com/in/christos-mpotsivalis-4947b4137/" target="_blank">LinkedIn</a></li>
-		<li><a href="https://github.com/ibanez1980" target="_blank">GitHub</a></li>
-	</ul>
-	<div class="nav-socials">
-		<a href="https://www.linkedin.com/in/christos-mpotsivalis-4947b4137/" target="_blank" title="LinkedIn">
-			<svg class="icon-linkedin" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
-		</a>
-		<a href="https://github.com/ibanez1980" target="_blank" title="GitHub">
-			<svg class="icon-github" viewBox="0 0 24 24"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
-		</a>
-	</div>
-</nav>
-
-<!-- HERO -->
-<section id="hero">
-	<div class="hero-left">
-		<div class="hero-eyebrow">Junior Data Analyst</div>
-		<h1 class="hero-name">
-			Chris<br>Mpotsivalis
-			<span>"Turning Numbers<br>into Stories"</span>
-		</h1>
-		<p class="hero-tagline">The Power of Analysis</p>
-		<p class="hero-bio">
-			Junior Data Analyst with a focus on using technology to turn data into meaningful insights. Dedicated to utilizing technical skills to help organizations make informed, data-driven decisions.
-			<br><br>
-			<a href="https://www.linkedin.com/in/christos-mpotsivalis-4947b4137/" target="_blank">@ChristosMpotsivalis</a>
-		</p>
-		<div class="skills-row">
-			<span class="skill-tag">MySQL</span>
-			<span class="skill-tag">Python</span>
-			<span class="skill-tag">Pandas</span>
-			<span class="skill-tag">Tableau</span>
-			<span class="skill-tag">Power BI</span>
-			<span class="skill-tag">Excel</span>
-			<span class="skill-tag">BeautifulSoup</span>
-			<span class="skill-tag">Selenium</span>
-		</div>
-		<div class="hero-cta">
-			<a href="#projects" class="btn-primary">View Projects</a>
-			<a href="https://github.com/ibanez1980" target="_blank" class="btn-ghost">GitHub</a>
-		</div>
-	</div>
-
-	<div class="hero-right">
-		<div class="profile-frame">
-			<img src="images/Chris.png" alt="Chris Mpotsivalis">
-			<div class="stat-card top-right">
-				<div class="num">4+</div>
-				<div class="label">Projects</div>
-			</div>
-			<div class="stat-card bottom-left">
-				<div class="num">5+</div>
-				<div class="label">Tools</div>
-			</div>
-		</div>
-	</div>
-</section>
-
-<div class="section-divider"></div>
-
-<!-- PROJECTS -->
-<section id="projects">
-	<div class="section-header">
-		<div class="section-label">Portfolio</div>
-		<h2 class="section-title">Selected<br>Projects</h2>
-	</div>
-
-	<!-- Featured -->
-	<div class="project-featured">
-		<div class="project-featured-img">
-			<img src="images/amazon.jpg" alt="Amazon Best Sellers Web Scraper">
-		</div>
-		<div class="project-featured-content">
-			<div class="project-num">01 — Featured</div>
-			<a href="https://github.com/ibanez1980/JuniorDataAnalystPortfolio/blob/main/1)Amazon%20Web%20Scraper%20Projects/Scraping%20100%20Best%20Sellers/100%20Best%20Sellers.ipynb" target="_blank" class="project-title">100 Best Sellers<br>Web Scraper</a>
-			<p class="project-desc">A web scraper that extracts book titles, author names and prices from Amazon.co.uk's 100 best sellers list. Built with Beautiful Soup and Selenium for dynamic page handling.</p>
-			<div class="project-tags">
-				<span class="project-tag">Python</span>
-				<span class="project-tag">BeautifulSoup</span>
-				<span class="project-tag">Selenium</span>
-				<span class="project-tag">Web Scraping</span>
-			</div>
-			<a href="https://github.com/ibanez1980/JuniorDataAnalystPortfolio/blob/main/1)Amazon%20Web%20Scraper%20Projects/Scraping%20100%20Best%20Sellers/100%20Best%20Sellers.ipynb" target="_blank" class="project-link">View Project</a>
-		</div>
-	</div>
-
-	<!-- Grid -->
-	<div class="projects-grid">
-		<div class="project-card">
-			<div class="project-card-img">
-				<img src="images/hikaru.jpg" alt="YouTube API Project">
-			</div>
-			<div class="project-card-content">
-				<div class="project-num">02</div>
-				<a href="https://github.com/ibanez1980/JuniorDataAnalystPortfolio/blob/main/2)YouTube%20API/GM%20Hikaru%20Nakamura-YouTube%20Channel%20Analysis.ipynb" target="_blank" class="project-title">YouTube API Analysis</a>
-				<p class="project-desc">Extracting and analyzing channel metrics from GM Hikaru Nakamura's YouTube channel using the YouTube Data API.</p>
-				<div class="project-tags">
-					<span class="project-tag">Python</span>
-					<span class="project-tag">YouTube API</span>
-				</div>
-				<a href="https://github.com/ibanez1980/JuniorDataAnalystPortfolio/blob/main/2)YouTube%20API/GM%20Hikaru%20Nakamura-YouTube%20Channel%20Analysis.ipynb" target="_blank" class="project-link">View Project</a>
-			</div>
-		</div>
-
-		<div class="project-card">
-			<div class="project-card-img">
-				<img src="images/movies.jpg" alt="Movie Correlation Project">
-			</div>
-			<div class="project-card-content">
-				<div class="project-num">03</div>
-				<a href="https://github.com/ibanez1980/JuniorDataAnalystPortfolio/blob/main/3)Movie%20Correlation(Pandas)/Movie%20Correlation%20Project.ipynb" target="_blank" class="project-title">Movie Correlation Project</a>
-				<p class="project-desc">Analyzing a movie dataset with Pandas, Matplotlib and Seaborn to uncover correlations between budget, ratings, and revenue.</p>
-				<div class="project-tags">
-					<span class="project-tag">Pandas</span>
-					<span class="project-tag">Matplotlib</span>
-					<span class="project-tag">Seaborn</span>
-				</div>
-				<a href="https://github.com/ibanez1980/JuniorDataAnalystPortfolio/blob/main/3)Movie%20Correlation(Pandas)/Movie%20Correlation%20Project.ipynb" target="_blank" class="project-link">View Project</a>
-			</div>
-		</div>
-
-		<div class="project-card">
-			<div class="project-card-img">
-				<img src="images/sales.png" alt="Sales Analysis Power BI">
-			</div>
-			<div class="project-card-content">
-				<div class="project-num">04</div>
-				<a href="https://github.com/ibanez1980/JuniorDataAnalystPortfolio/tree/main/4)Sales%20Analysis(Power%20BI)" target="_blank" class="project-title">Sales Analysis — Power BI</a>
-				<p class="project-desc">Internet sales analysis with SQL data cleaning and transformation, culminating in an interactive Power BI dashboard.</p>
-				<div class="project-tags">
-					<span class="project-tag">SQL</span>
-					<span class="project-tag">Power BI</span>
-				</div>
-				<a href="https://github.com/ibanez1980/JuniorDataAnalystPortfolio/tree/main/4)Sales%20Analysis(Power%20BI)" target="_blank" class="project-link">View Project</a>
-			</div>
-		</div>
-	</div>
-
-	<!-- Tableau full-width card -->
-	<div class="project-featured" style="margin-top: 2px; grid-template-columns: 1fr 1fr;">
-		<div class="project-featured-content" style="border-right: 1px solid var(--border);">
-			<div class="project-num">05</div>
-			<a href="https://public.tableau.com/app/profile/chris.mpotsivalis/viz/CanadaCOVID19Tracker/COVID19Tracker" target="_blank" class="project-title">Canada COVID-19 Tracker</a>
-			<p class="project-desc">An interactive Tableau dashboard analyzing COVID-19 data for Canada from February 2020 to February 2023. Covers case trends, regional breakdowns, and time-series analysis.</p>
-			<div class="project-tags">
-				<span class="project-tag">Tableau</span>
-				<span class="project-tag">Data Viz</span>
-				<span class="project-tag">Dashboard</span>
-			</div>
-			<a href="https://public.tableau.com/app/profile/chris.mpotsivalis/viz/CanadaCOVID19Tracker/COVID19Tracker" target="_blank" class="project-link">View Dashboard</a>
-		</div>
-		<div class="project-featured-img">
-			<img src="images/covid.jpg" alt="Canada COVID-19 Tableau Dashboard">
-		</div>
-	</div>
-</section>
-
-<!-- FOOTER -->
-<footer>
-	<div class="footer-left">
-		<div class="footer-name">Chris Mpotsivalis</div>
-		<p>© 2024 — Junior Data Analyst · Athens, Greece</p>
-	</div>
-	<div class="footer-right">
-		<div class="footer-links">
-			<a href="https://www.linkedin.com/in/christos-mpotsivalis-4947b4137/" target="_blank">
-				<svg class="icon-linkedin" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
-				LinkedIn
-			</a>
-			<a href="https://github.com/ibanez1980" target="_blank">
-				<svg class="icon-github" viewBox="0 0 24 24"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
-				GitHub
-			</a>
-		</div>
-		<div class="footer-email">cbotsi2005@hotmail.com</div>
-	</div>
-</footer>
-
-</body>
+  <head>
+    <title>Chris Mpotsivalis — Data Analyst</title>
+    <link rel="shortcut icon" href="images/Chris.png" type="image/x-icon" />
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, user-scalable=no"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@300;400;500&family=Syne:wght@400;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --bg: #0a0a0f;
+        --surface: #111118;
+        --surface2: #16161f;
+        --border: rgba(255, 255, 255, 0.07);
+        --accent: #c8a96e;
+        --accent2: #7e6fff;
+        --text: #e8e6e0;
+        --text-muted: #7a7870;
+        --text-dim: #4a4845;
+      }
+
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        background: var(--bg);
+        color: var(--text);
+        font-family: "DM Mono", monospace;
+        font-size: 14px;
+        line-height: 1.7;
+        overflow-x: hidden;
+      }
+
+      /* ── NOISE OVERLAY ── */
+      body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+        opacity: 0.025;
+        pointer-events: none;
+        z-index: 999;
+      }
+
+      /* ── SCROLLBAR ── */
+      ::-webkit-scrollbar {
+        width: 4px;
+      }
+      ::-webkit-scrollbar-track {
+        background: var(--bg);
+      }
+      ::-webkit-scrollbar-thumb {
+        background: var(--accent);
+        border-radius: 2px;
+      }
+
+      /* ── HERO ── */
+      #hero {
+        min-height: 100vh;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        position: relative;
+        overflow: hidden;
+      }
+
+      #hero::after {
+        content: "";
+        position: absolute;
+        top: -20%;
+        right: -10%;
+        width: 60vw;
+        height: 60vw;
+        background: radial-gradient(
+          circle,
+          rgba(200, 169, 110, 0.06) 0%,
+          transparent 70%
+        );
+        pointer-events: none;
+      }
+
+      .hero-left {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: 80px 60px 80px 80px;
+        position: relative;
+        z-index: 1;
+      }
+
+      .hero-eyebrow {
+        font-family: "DM Mono", monospace;
+        font-size: 11px;
+        letter-spacing: 0.25em;
+        text-transform: uppercase;
+        color: var(--accent);
+        margin-bottom: 28px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+      .hero-eyebrow::before {
+        content: "";
+        width: 40px;
+        height: 1px;
+        background: var(--accent);
+      }
+
+      .hero-name {
+        font-family: "Syne", sans-serif;
+        font-size: clamp(3rem, 6vw, 5.5rem);
+        font-weight: 800;
+        line-height: 0.95;
+        letter-spacing: -0.02em;
+        color: #fff;
+        margin-bottom: 8px;
+      }
+
+      .hero-name span {
+        display: block;
+        color: var(--accent);
+        font-style: italic;
+        font-family: "Cormorant Garamond", serif;
+        font-weight: 300;
+        font-size: 0.62em;
+        letter-spacing: 0;
+        line-height: 1.3;
+      }
+
+      .hero-tagline {
+        font-family: "Cormorant Garamond", serif;
+        font-style: italic;
+        font-size: 1.25rem;
+        color: var(--text-muted);
+        margin-top: 24px;
+        margin-bottom: 36px;
+        border-left: 2px solid var(--accent);
+        padding-left: 20px;
+      }
+
+      .hero-bio {
+        color: var(--text-muted);
+        font-size: 13px;
+        line-height: 1.8;
+        max-width: 440px;
+        margin-bottom: 40px;
+      }
+
+      .hero-bio a {
+        color: var(--accent);
+        text-decoration: none;
+      }
+
+      .skills-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-bottom: 40px;
+      }
+
+      .skill-tag {
+        font-family: "DM Mono", monospace;
+        font-size: 10px;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--text-dim);
+        border: 1px solid var(--border);
+        padding: 5px 12px;
+        border-radius: 2px;
+        transition: all 0.2s;
+      }
+      .skill-tag:hover {
+        color: var(--accent);
+        border-color: var(--accent);
+      }
+
+      .hero-cta {
+        display: flex;
+        gap: 16px;
+        align-items: center;
+      }
+
+      .btn-primary {
+        font-family: "DM Mono", monospace;
+        font-size: 11px;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        color: var(--bg);
+        background: var(--accent);
+        border: none;
+        padding: 14px 32px;
+        cursor: pointer;
+        text-decoration: none;
+        transition: all 0.25s;
+        display: inline-block;
+      }
+      .btn-primary:hover {
+        background: #d4b87a;
+        transform: translateY(-1px);
+      }
+
+      .btn-ghost {
+        font-family: "DM Mono", monospace;
+        font-size: 11px;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        color: var(--text-muted);
+        background: none;
+        border: 1px solid var(--border);
+        padding: 14px 32px;
+        cursor: pointer;
+        text-decoration: none;
+        transition: all 0.25s;
+        display: inline-block;
+      }
+      .btn-ghost:hover {
+        color: var(--accent);
+        border-color: var(--accent);
+      }
+
+      /* ── HERO RIGHT ── */
+      .hero-right {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 80px 60px;
+        position: relative;
+      }
+
+      .profile-frame {
+        position: relative;
+        width: 280px;
+        height: 280px;
+      }
+
+      .profile-frame::before {
+        content: "";
+        position: absolute;
+        inset: -12px;
+        border: 1px solid rgba(200, 169, 110, 0.3);
+        transform: rotate(6deg);
+        transition: transform 0.4s;
+      }
+
+      .profile-frame::after {
+        content: "";
+        position: absolute;
+        inset: -24px;
+        border: 1px solid rgba(200, 169, 110, 0.12);
+        transform: rotate(-3deg);
+        transition: transform 0.4s;
+      }
+
+      .profile-frame:hover::before {
+        transform: rotate(3deg);
+      }
+      .profile-frame:hover::after {
+        transform: rotate(-6deg);
+      }
+
+      .profile-frame img {
+        width: 280px;
+        height: 280px;
+        object-fit: cover;
+        display: block;
+        filter: grayscale(20%);
+        transition: filter 0.3s;
+      }
+
+      .profile-frame:hover img {
+        filter: grayscale(0%);
+      }
+
+      /* stat cards floating */
+      .stat-card {
+        position: absolute;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        padding: 14px 20px;
+        backdrop-filter: blur(12px);
+      }
+      .stat-card .num {
+        font-family: "Syne", sans-serif;
+        font-size: 1.8rem;
+        font-weight: 700;
+        color: var(--accent);
+        line-height: 1;
+      }
+      .stat-card .label {
+        font-size: 10px;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--text-dim);
+        margin-top: 4px;
+      }
+      .stat-card.top-right {
+        top: 20px;
+        right: -30px;
+      }
+      .stat-card.bottom-left {
+        bottom: 20px;
+        left: -50px;
+      }
+
+      /* ── DIVIDER ── */
+      .section-divider {
+        width: 100%;
+        height: 1px;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          var(--border) 20%,
+          var(--border) 80%,
+          transparent
+        );
+        margin: 0;
+      }
+
+      /* ── NAV ── */
+      nav {
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        background: rgba(10, 10, 15, 0.85);
+        backdrop-filter: blur(20px);
+        border-bottom: 1px solid var(--border);
+        padding: 0 80px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        height: 64px;
+      }
+
+      .nav-logo {
+        font-family: "Syne", sans-serif;
+        font-weight: 700;
+        font-size: 14px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: #fff;
+        text-decoration: none;
+      }
+
+      .nav-logo span {
+        color: var(--accent);
+      }
+
+      .nav-links {
+        display: flex;
+        align-items: center;
+        gap: 32px;
+        list-style: none;
+      }
+
+      .nav-links a {
+        font-family: "DM Mono", monospace;
+        font-size: 11px;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        color: var(--text-muted);
+        text-decoration: none;
+        transition: color 0.2s;
+      }
+      .nav-links a:hover,
+      .nav-links a.active {
+        color: var(--accent);
+      }
+
+      .nav-socials {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+      }
+
+      .nav-socials a {
+        color: var(--text-dim);
+        text-decoration: none;
+        font-size: 15px;
+        transition: color 0.2s;
+      }
+      .nav-socials a:hover {
+        color: var(--accent);
+      }
+
+      /* ── PROJECTS SECTION ── */
+      #projects {
+        padding: 120px 80px;
+      }
+
+      .section-header {
+        margin-bottom: 80px;
+      }
+
+      .section-label {
+        font-family: "DM Mono", monospace;
+        font-size: 11px;
+        letter-spacing: 0.25em;
+        text-transform: uppercase;
+        color: var(--accent);
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 20px;
+      }
+      .section-label::before {
+        content: "";
+        width: 40px;
+        height: 1px;
+        background: var(--accent);
+      }
+
+      .section-title {
+        font-family: "Syne", sans-serif;
+        font-size: clamp(2rem, 4vw, 3.5rem);
+        font-weight: 800;
+        line-height: 1;
+        letter-spacing: -0.02em;
+        color: #fff;
+      }
+
+      /* Featured Project */
+      .project-featured {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0;
+        border: 1px solid var(--border);
+        margin-bottom: 2px;
+        overflow: hidden;
+        transition: border-color 0.3s;
+      }
+      .project-featured:hover {
+        border-color: rgba(200, 169, 110, 0.25);
+      }
+
+      .project-featured-img {
+        overflow: hidden;
+        position: relative;
+      }
+      .project-featured-img::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+          135deg,
+          rgba(200, 169, 110, 0.15) 0%,
+          transparent 50%
+        );
+        pointer-events: none;
+      }
+      .project-featured-img img {
+        width: 100%;
+        height: 100%;
+        min-height: 360px;
+        object-fit: cover;
+        display: block;
+        filter: grayscale(40%) contrast(1.05);
+        transition: all 0.6s ease;
+      }
+      .project-featured:hover .project-featured-img img {
+        filter: grayscale(10%) contrast(1.05);
+        transform: scale(1.03);
+      }
+
+      .project-featured-content {
+        padding: 60px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        background: var(--surface);
+      }
+
+      .project-num {
+        font-family: "DM Mono", monospace;
+        font-size: 11px;
+        letter-spacing: 0.2em;
+        color: var(--accent);
+        margin-bottom: 20px;
+      }
+
+      .project-title {
+        font-family: "Syne", sans-serif;
+        font-size: 1.8rem;
+        font-weight: 700;
+        color: #fff;
+        line-height: 1.1;
+        margin-bottom: 20px;
+        text-decoration: none;
+        display: block;
+        transition: color 0.2s;
+      }
+      .project-title:hover {
+        color: var(--accent);
+      }
+
+      .project-desc {
+        color: var(--text-muted);
+        font-size: 13px;
+        line-height: 1.8;
+        margin-bottom: 32px;
+      }
+
+      .project-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-bottom: 32px;
+      }
+
+      .project-tag {
+        font-family: "DM Mono", monospace;
+        font-size: 10px;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        padding: 4px 10px;
+        border: 1px solid var(--border);
+        color: var(--text-dim);
+      }
+
+      .project-link {
+        font-family: "DM Mono", monospace;
+        font-size: 11px;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        color: var(--accent);
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        transition: gap 0.2s;
+      }
+      .project-link::after {
+        content: "→";
+      }
+      .project-link:hover {
+        gap: 16px;
+      }
+
+      /* Grid projects */
+      .projects-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 2px;
+      }
+
+      .project-card {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        transition: border-color 0.3s;
+        position: relative;
+      }
+      .project-card:hover {
+        border-color: rgba(200, 169, 110, 0.25);
+      }
+
+      .project-card-img {
+        overflow: hidden;
+        position: relative;
+        height: 200px;
+      }
+      .project-card-img::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+          to bottom,
+          transparent 40%,
+          var(--surface) 100%
+        );
+      }
+      .project-card-img img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        filter: grayscale(50%) contrast(1.05);
+        transition: all 0.6s ease;
+      }
+      .project-card:hover .project-card-img img {
+        filter: grayscale(10%);
+        transform: scale(1.05);
+      }
+
+      .project-card-content {
+        padding: 32px;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .project-card .project-title {
+        font-size: 1rem;
+        margin-bottom: 12px;
+      }
+
+      .project-card .project-desc {
+        font-size: 12.5px;
+        margin-bottom: 24px;
+        flex: 1;
+      }
+
+      /* ── FOOTER ── */
+      footer {
+        background: var(--surface);
+        border-top: 1px solid var(--border);
+        padding: 60px 80px;
+        display: grid;
+        grid-template-columns: 1fr auto;
+        align-items: center;
+        gap: 40px;
+      }
+
+      .footer-left .footer-name {
+        font-family: "Syne", sans-serif;
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: #fff;
+        margin-bottom: 8px;
+      }
+
+      .footer-left p {
+        color: var(--text-dim);
+        font-size: 12px;
+      }
+
+      .footer-right {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        gap: 20px;
+      }
+
+      .footer-links {
+        display: flex;
+        gap: 20px;
+        align-items: center;
+      }
+
+      .footer-links a {
+        font-family: "DM Mono", monospace;
+        font-size: 11px;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--text-muted);
+        text-decoration: none;
+        transition: color 0.2s;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .footer-links a:hover {
+        color: var(--accent);
+      }
+
+      .footer-email {
+        font-family: "DM Mono", monospace;
+        font-size: 11px;
+        color: var(--text-dim);
+        letter-spacing: 0.05em;
+      }
+
+      .footer-email span {
+        color: var(--accent);
+      }
+
+      /* ── SVG ICONS ── */
+      .icon-linkedin,
+      .icon-github {
+        width: 16px;
+        height: 16px;
+        fill: currentColor;
+      }
+
+      /* ── ANIMATIONS ── */
+      @keyframes fadeUp {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .hero-left > * {
+        opacity: 0;
+        animation: fadeUp 0.8s ease forwards;
+      }
+      .hero-eyebrow {
+        animation-delay: 0.1s;
+      }
+      .hero-name {
+        animation-delay: 0.25s;
+      }
+      .hero-tagline {
+        animation-delay: 0.4s;
+      }
+      .hero-bio {
+        animation-delay: 0.5s;
+      }
+      .skills-row {
+        animation-delay: 0.6s;
+      }
+      .hero-cta {
+        animation-delay: 0.7s;
+      }
+
+      .hero-right {
+        opacity: 0;
+        animation: fadeUp 0.8s ease 0.5s forwards;
+      }
+
+      /* ── RESPONSIVE ── */
+      @media (max-width: 1100px) {
+        #hero {
+          grid-template-columns: 1fr;
+          min-height: auto;
+        }
+        .hero-right {
+          display: none;
+        }
+        .hero-left {
+          padding: 80px 40px;
+        }
+        nav {
+          padding: 0 40px;
+        }
+        #projects {
+          padding: 80px 40px;
+        }
+        .project-featured {
+          grid-template-columns: 1fr;
+        }
+        .project-featured-img img {
+          min-height: 240px;
+        }
+        .projects-grid {
+          grid-template-columns: 1fr 1fr;
+        }
+        footer {
+          padding: 40px;
+          grid-template-columns: 1fr;
+        }
+        .footer-right {
+          align-items: flex-start;
+        }
+      }
+
+      @media (max-width: 700px) {
+        .hero-left {
+          padding: 60px 24px;
+        }
+        nav {
+          padding: 0 24px;
+        }
+        .nav-links {
+          display: none;
+        }
+        #projects {
+          padding: 60px 24px;
+        }
+        .project-featured-content {
+          padding: 32px;
+        }
+        .projects-grid {
+          grid-template-columns: 1fr;
+        }
+        footer {
+          padding: 40px 24px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- NAV -->
+    <nav>
+      <a href="index.html" class="nav-logo">Chris<span>.</span></a>
+      <ul class="nav-links">
+        <li><a href="#projects" class="active">Projects</a></li>
+        <li>
+          <a
+            href="https://www.linkedin.com/in/christos-mpotsivalis-4947b4137/"
+            target="_blank"
+            >LinkedIn</a
+          >
+        </li>
+        <li>
+          <a href="https://github.com/ibanez1980" target="_blank">GitHub</a>
+        </li>
+      </ul>
+      <div class="nav-socials">
+        <a
+          href="https://www.linkedin.com/in/christos-mpotsivalis-4947b4137/"
+          target="_blank"
+          title="LinkedIn"
+        >
+          <svg class="icon-linkedin" viewBox="0 0 24 24">
+            <path
+              d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"
+            />
+          </svg>
+        </a>
+        <a href="https://github.com/ibanez1980" target="_blank" title="GitHub">
+          <svg class="icon-github" viewBox="0 0 24 24">
+            <path
+              d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"
+            />
+          </svg>
+        </a>
+      </div>
+    </nav>
+
+    <!-- HERO -->
+    <section id="hero">
+      <div class="hero-left">
+        <div class="hero-eyebrow">Junior Data Analyst</div>
+        <h1 class="hero-name">
+          Chris<br />Mpotsivalis
+          <span>"Turning Numbers<br />into Stories"</span>
+        </h1>
+        <p class="hero-tagline">The Power of Analysis</p>
+        <p class="hero-bio">
+          Junior Data Analyst with a focus on using technology to turn data into
+          meaningful insights. Dedicated to utilizing technical skills to help
+          organizations make informed, data-driven decisions.
+          <br /><br />
+          <a
+            href="https://www.linkedin.com/in/christos-mpotsivalis-4947b4137/"
+            target="_blank"
+            >@ChristosMpotsivalis</a
+          >
+        </p>
+        <div class="skills-row">
+          <span class="skill-tag">MySQL</span>
+          <span class="skill-tag">Python</span>
+          <span class="skill-tag">Pandas</span>
+          <span class="skill-tag">Tableau</span>
+          <span class="skill-tag">Power BI</span>
+          <span class="skill-tag">Excel</span>
+          <span class="skill-tag">BeautifulSoup</span>
+          <span class="skill-tag">Selenium</span>
+        </div>
+        <div class="hero-cta">
+          <a href="#projects" class="btn-primary">View Projects</a>
+          <a
+            href="https://github.com/ibanez1980"
+            target="_blank"
+            class="btn-ghost"
+            >GitHub</a
+          >
+        </div>
+      </div>
+
+      <div class="hero-right">
+        <div class="profile-frame">
+          <img src="images/Chris.png" alt="Chris Mpotsivalis" />
+          <div class="stat-card top-right">
+            <div class="num">4+</div>
+            <div class="label">Projects</div>
+          </div>
+          <div class="stat-card bottom-left">
+            <div class="num">5+</div>
+            <div class="label">Tools</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- PROJECTS -->
+    <section id="projects">
+      <div class="section-header">
+        <div class="section-label">Portfolio</div>
+        <h2 class="section-title">Selected<br />Projects</h2>
+      </div>
+
+      <!-- Featured -->
+      <div class="project-featured">
+        <div class="project-featured-img">
+          <img src="images/amazon.jpg" alt="Amazon Best Sellers Web Scraper" />
+        </div>
+        <div class="project-featured-content">
+          <div class="project-num">01 — Featured</div>
+          <a
+            href="https://nbviewer.jupyter.org/github/ibanez1980/JuniorDataAnalystPortfolio/blob/main/1)Amazon%20Web%20Scraper%20Projects/Scraping%20100%20Best%20Sellers/100%20Best%20Sellers.ipynb"
+            target="_blank"
+            class="project-title"
+            >100 Best Sellers<br />Web Scraper</a
+          >
+          <p class="project-desc">
+            A web scraper that extracts book titles, author names and prices
+            from Amazon.co.uk's 100 best sellers list. Built with Beautiful Soup
+            and Selenium for dynamic page handling.
+          </p>
+          <div class="project-tags">
+            <span class="project-tag">Python</span>
+            <span class="project-tag">BeautifulSoup</span>
+            <span class="project-tag">Selenium</span>
+            <span class="project-tag">Web Scraping</span>
+          </div>
+          <a
+            href="https://github.com/ibanez1980/JuniorDataAnalystPortfolio/blob/main/1)Amazon%20Web%20Scraper%20Projects/Scraping%20100%20Best%20Sellers/100%20Best%20Sellers.ipynb"
+            target="_blank"
+            class="project-link"
+            >View Project</a
+          >
+        </div>
+      </div>
+
+      <!-- Grid -->
+      <div class="projects-grid">
+        <div class="project-card">
+          <div class="project-card-img">
+            <img src="images/hikaru.jpg" alt="YouTube API Project" />
+          </div>
+          <div class="project-card-content">
+            <div class="project-num">02</div>
+            <a
+              href="https://nbviewer.jupyter.org/github/ibanez1980/JuniorDataAnalystPortfolio/blob/main/2%29YouTube%20API/GM%20Hikaru%20Nakamura-YouTube%20Channel%20Analysis.ipynb"
+              target="_blank"
+              class="project-title"
+              >YouTube API Analysis</a
+            >
+            <p class="project-desc">
+              Extracting and analyzing channel metrics from GM Hikaru Nakamura's
+              YouTube channel using the YouTube Data API.
+            </p>
+            <div class="project-tags">
+              <span class="project-tag">Python</span>
+              <span class="project-tag">YouTube API</span>
+            </div>
+            <a
+              href="https://github.com/ibanez1980/JuniorDataAnalystPortfolio/blob/main/2)YouTube%20API/GM%20Hikaru%20Nakamura-YouTube%20Channel%20Analysis.ipynb"
+              target="_blank"
+              class="project-link"
+              >View Project</a
+            >
+          </div>
+        </div>
+
+        <div class="project-card">
+          <div class="project-card-img">
+            <img src="images/movies.jpg" alt="Movie Correlation Project" />
+          </div>
+          <div class="project-card-content">
+            <div class="project-num">03</div>
+            <a
+              href="https://nbviewer.org/github/ibanez1980/JuniorDataAnalystPortfolio/blob/main/3)Movie%20Correlation(Pandas)/Movie%20Correlation%20Project.ipynb"
+              target="_blank"
+              class="project-title"
+              >Movie Correlation Project</a
+            >
+            <p class="project-desc">
+              Analyzing a movie dataset with Pandas, Matplotlib and Seaborn to
+              uncover correlations between budget, ratings, and revenue.
+            </p>
+            <div class="project-tags">
+              <span class="project-tag">Pandas</span>
+              <span class="project-tag">Matplotlib</span>
+              <span class="project-tag">Seaborn</span>
+            </div>
+            <a
+              href="https://github.com/ibanez1980/JuniorDataAnalystPortfolio/blob/main/3)Movie%20Correlation(Pandas)/Movie%20Correlation%20Project.ipynb"
+              target="_blank"
+              class="project-link"
+              >View Project</a
+            >
+          </div>
+        </div>
+
+        <div class="project-card">
+          <div class="project-card-img">
+            <img src="images/sales.png" alt="Sales Analysis Power BI" />
+          </div>
+          <div class="project-card-content">
+            <div class="project-num">04</div>
+            <a
+              href="https://github.com/ibanez1980/JuniorDataAnalystPortfolio/tree/main/4)Sales%20Analysis(Power%20BI)"
+              target="_blank"
+              class="project-title"
+              >Sales Analysis — Power BI</a
+            >
+            <p class="project-desc">
+              Internet sales analysis with SQL data cleaning and transformation,
+              culminating in an interactive Power BI dashboard.
+            </p>
+            <div class="project-tags">
+              <span class="project-tag">SQL</span>
+              <span class="project-tag">Power BI</span>
+            </div>
+            <a
+              href="https://github.com/ibanez1980/JuniorDataAnalystPortfolio/tree/main/4)Sales%20Analysis(Power%20BI)"
+              target="_blank"
+              class="project-link"
+              >View Project</a
+            >
+          </div>
+        </div>
+      </div>
+
+      <!-- Tableau full-width card -->
+      <div
+        class="project-featured"
+        style="margin-top: 2px; grid-template-columns: 1fr 1fr"
+      >
+        <div
+          class="project-featured-content"
+          style="border-right: 1px solid var(--border)"
+        >
+          <div class="project-num">05</div>
+          <a
+            href="https://public.tableau.com/app/profile/chris.mpotsivalis/viz/CanadaCOVID19Tracker/COVID19Tracker"
+            target="_blank"
+            class="project-title"
+            >Canada COVID-19 Tracker</a
+          >
+          <p class="project-desc">
+            An interactive Tableau dashboard analyzing COVID-19 data for Canada
+            from February 2020 to February 2023. Covers case trends, regional
+            breakdowns, and time-series analysis.
+          </p>
+          <div class="project-tags">
+            <span class="project-tag">Tableau</span>
+            <span class="project-tag">Data Viz</span>
+            <span class="project-tag">Dashboard</span>
+          </div>
+          <a
+            href="https://public.tableau.com/app/profile/chris.mpotsivalis/viz/CanadaCOVID19Tracker/COVID19Tracker"
+            target="_blank"
+            class="project-link"
+            >View Dashboard</a
+          >
+        </div>
+        <div class="project-featured-img">
+          <img src="images/covid.jpg" alt="Canada COVID-19 Tableau Dashboard" />
+        </div>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+      <div class="footer-left">
+        <div class="footer-name">Chris Mpotsivalis</div>
+        <p>© 2024 — Junior Data Analyst · Athens, Greece</p>
+      </div>
+      <div class="footer-right">
+        <div class="footer-links">
+          <a
+            href="https://www.linkedin.com/in/christos-mpotsivalis-4947b4137/"
+            target="_blank"
+          >
+            <svg class="icon-linkedin" viewBox="0 0 24 24">
+              <path
+                d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"
+              />
+            </svg>
+            LinkedIn
+          </a>
+          <a href="https://github.com/ibanez1980" target="_blank">
+            <svg class="icon-github" viewBox="0 0 24 24">
+              <path
+                d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"
+              />
+            </svg>
+            GitHub
+          </a>
+        </div>
+        <div class="footer-email">cbotsi2005@hotmail.com</div>
+      </div>
+    </footer>
+  </body>
 </html>
